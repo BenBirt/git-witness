@@ -1,0 +1,17 @@
+name: Cosign Checkpoint
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  cosign:
+    if: startsWith(github.event.issue.title, 'checkpoint:')
+    runs-on: ubuntu-latest
+    concurrency:
+      group: cosign-${{ github.event.issue.title }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v7
+      - uses: project-oak/git-ratchet/actions/cosign@v0.1.2
+        with:
+          witness-key: ${{ secrets.WITNESS_SIGNING_KEY }}
