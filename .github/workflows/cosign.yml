@@ -7,6 +7,9 @@ jobs:
   cosign:
     if: startsWith(github.event.issue.title, 'checkpoint:')
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
     concurrency:
       group: cosign-${{ github.event.issue.title }}
       cancel-in-progress: false
@@ -16,8 +19,19 @@ jobs:
         with:
           witness-key: ${{ secrets.WITNESS_SIGNING_KEY }}
 
+  # Separate job so the issue is closed even if the cosign job fails
+  # during setup (e.g. Action resolution error), before any steps run.
+  cleanup:
+    needs: cosign
+    if: >-
+      always() &&
+      startsWith(github.event.issue.title, 'checkpoint:') &&
+      needs.cosign.result == 'failure'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
       - name: Close issue on failure
-        if: failure()
         env:
           ISSUE: ${{ github.event.issue.number }}
           GH_TOKEN: ${{ github.token }}
