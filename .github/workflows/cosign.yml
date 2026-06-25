@@ -15,3 +15,13 @@ jobs:
       - uses: project-oak/git-ratchet/actions/cosign@v0.1.2
         with:
           witness-key: ${{ secrets.WITNESS_SIGNING_KEY }}
+
+      - name: Close issue on failure
+        if: failure()
+        env:
+          ISSUE: ${{ github.event.issue.number }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue comment "$ISSUE" \
+            --body "❌ Rejected. See [workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})."
+          gh issue close "$ISSUE" --reason "not planned"
