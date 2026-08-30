@@ -13,7 +13,7 @@ It speaks the C2SP [tlog-witness](https://c2sp.org/tlog-witness) protocol. What 
 ## How it works
 
 1. A monitored repository publishes a new checkpoint by opening an issue here, titled `checkpoint: <origin>`, with the `add-checkpoint` request in a fenced `http` block.
-2. The [workflow](.github/workflows/cosign.yml) runs [`actions/cosign`](https://github.com/BenBirt/git-ratchet/tree/main/actions/cosign), which checks the origin is registered, answers the request, and commits the resulting state.
+2. The [workflow](.github/workflows/cosign.yml) runs [`actions/cosign`](https://github.com/project-oak/git-ratchet/tree/main/actions/cosign), which checks the origin is registered, answers the request, and commits the resulting state.
 3. The response is posted as a comment — whatever its status, since a refusal is an answer the origin needs to read — and the issue is closed.
 
 Both messages are HTTP messages serialised as `message/http` ([RFC 9112](https://www.rfc-editor.org/rfc/rfc9112.html)), so the exchange in each issue reads as the HTTP request and response it stands for.
