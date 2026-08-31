@@ -1,1 +1,0 @@
-github.com/project-oak/git-ratchet+39f20ff5+AfIbFaum99YNfTOUk2R3eEj6OjOSGVaqH98I8UniqQKJ
