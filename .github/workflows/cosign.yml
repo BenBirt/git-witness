@@ -14,9 +14,6 @@ jobs:
       group: cosign-${{ github.event.issue.title }}
       cancel-in-progress: false
     steps:
-      # Pinned to a commit: this witness runs the origin project's code, so
-      # which revision it runs is a decision to make deliberately rather than
-      # inherit from whatever that project's main branch says today.
       - uses: project-oak/git-ratchet/actions/cosign@ef61689a3df70e2d443b18ac56288931178c8ce7
         with:
           witness-key: ${{ secrets.WITNESS_SIGNING_KEY }}
